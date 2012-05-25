@@ -14,6 +14,7 @@ namespace DynamicAzureStorageClient
 {
     public class DynamicStorageClient
     {
+        private const string MethodGet = "GET";
         private CloudStorageAccount _cloudStorageAccount;
 
         public DynamicStorageClient(CloudStorageAccount cloudStorageAccount)
@@ -23,28 +24,51 @@ namespace DynamicAzureStorageClient
 
             //HttpClient client = new HttpClient();
         }
-        public string GetEntities(string tableName){
-            string accountName = _cloudStorageAccount.Credentials.AccountName;
-            string key = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
+        public string GetEntities(string tableName)
+        {
 
-            //var signature = string.Format("GET\n\n\n{0}\n/{1}/{2}", request.Headers["x-ms-date"], accountName, resource);
             var uri = new Uri(string.Format("{0}/{1}", _cloudStorageAccount.TableEndpoint, tableName));
-            var request = CreateRequest(uri, "GET");
+            var request = CreateRequest(uri, MethodGet);
             _cloudStorageAccount.Credentials.SignRequestLite(request);
-            
-            var response = request.GetResponse();
-            using (var stream = response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
+
+            return ReturnResponse(request);
+        }
+
+        private static string ReturnResponse(HttpWebRequest request)
+        {
+            try
             {
-                string readToEnd = reader.ReadToEnd();
-                Console.WriteLine(readToEnd);
-                return readToEnd;
+                var response = request.GetResponse();
+                using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    string readToEnd = reader.ReadToEnd();
+                    Console.WriteLine(readToEnd);
+                    return readToEnd;
+                }
             }
+            catch
+            {
+                Console.WriteLine("Uri:" + request.RequestUri);
+                foreach (string header in request.Headers.Keys)
+                {
+                    Console.WriteLine("{0}: {1}", header, request.Headers[header]);
+                }
+                throw;
+            }
+        }
+
+        public string GetEntities(string tableName, string partitionKey)
+        {
+            var uri = new Uri(string.Format("{0}/{1}()?$filter=PartitionKey%20eq%20'{2}'", _cloudStorageAccount.TableEndpoint, tableName, partitionKey));
+            var request = CreateRequest(uri, MethodGet);
+            _cloudStorageAccount.Credentials.SignRequestLite(request);
+            return ReturnResponse(request);
         }
 
         private static HttpWebRequest CreateRequest(Uri uri, string method)
         {
-            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(uri);
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = method;
             request.ContentLength = 0;
             request.ContentType = "application/atom+xml";
