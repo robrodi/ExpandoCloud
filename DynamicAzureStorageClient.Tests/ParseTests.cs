@@ -47,7 +47,7 @@ namespace DynamicAzureStorageClient.Tests
             s.Stop();
             Console.WriteLine("{0} ms for {1} runs", s.ElapsedMilliseconds, iterations1);
 
-            int iterations2 = 1000;
+            int iterations2 = 10000;
             s.Restart();
             for (int i = 0; i < iterations2; i++)
             {
@@ -56,6 +56,7 @@ namespace DynamicAzureStorageClient.Tests
                 foreach (var expandoEntity in actual)
                     expandoEntity.RowKey.ToString();
             }
+
             s.Stop();
             Console.WriteLine("{0} ms for {1} runs", s.ElapsedMilliseconds, iterations2);
         }
