@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.WindowsAzure;
 
 namespace DynamicAzureStorageClient
@@ -16,22 +10,32 @@ namespace DynamicAzureStorageClient
     {
         private const string MethodGet = "GET";
         private CloudStorageAccount _cloudStorageAccount;
+        private readonly IParser _parser;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DynamicStorageClient"/> class.
+        /// </summary>
+        /// <param name="cloudStorageAccount">The cloud storage account.</param>
         public DynamicStorageClient(CloudStorageAccount cloudStorageAccount)
         {
             _cloudStorageAccount = cloudStorageAccount;
-
-
-            //HttpClient client = new HttpClient();
+            _parser = new DynamicEntityParser();
         }
-        public string GetEntities(string tableName)
+
+        public string GetStreams(string tableName)
         {
 
             var uri = new Uri(string.Format("{0}/{1}", _cloudStorageAccount.TableEndpoint, tableName));
             var request = CreateRequest(uri, MethodGet);
             _cloudStorageAccount.Credentials.SignRequestLite(request);
-
             return ReturnResponse(request);
+        }
+        public IEnumerable<ExpandoEntity> GetEntities(string tableName)
+        {
+            var uri = new Uri(string.Format("{0}/{1}", _cloudStorageAccount.TableEndpoint, tableName));
+            var request = CreateRequest(uri, MethodGet);
+            _cloudStorageAccount.Credentials.SignRequestLite(request);
+            return ReturnEntities(request);
         }
 
         private static string ReturnResponse(HttpWebRequest request)
@@ -58,11 +62,24 @@ namespace DynamicAzureStorageClient
             }
         }
 
-        public string GetEntities(string tableName, string partitionKey)
+        private IEnumerable<ExpandoEntity> ReturnEntities(HttpWebRequest request)
+        {
+            using (var stream = request.GetResponse().GetResponseStream())
+                return _parser.ParseEntries(stream);
+        }
+
+        /// <summary>
+        /// Gets the streams.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="partitionKey">The partition key.</param>
+        /// <returns></returns>
+        public string GetStreams(string tableName, string partitionKey)
         {
             var uri = new Uri(string.Format("{0}/{1}()?$filter=PartitionKey%20eq%20'{2}'", _cloudStorageAccount.TableEndpoint, tableName, partitionKey));
             var request = CreateRequest(uri, MethodGet);
             _cloudStorageAccount.Credentials.SignRequestLite(request);
+
             return ReturnResponse(request);
         }
 

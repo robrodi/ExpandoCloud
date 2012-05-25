@@ -38,12 +38,22 @@ namespace DynamicAzureStorageClient.Tests
             client.CreateTableIfNotExist(tableName);
             TableServiceContext context = new TableServiceContext(account.TableEndpoint.AbsoluteUri, account.Credentials);
             
-            var crapEntity1 = new CrapEntity1 { PartitionKey = "A", RowKey = "1", Thing0 = "E1", Thing1 = "Hi", Thing2 = 1234};
-            var crapEntity2 = new CrapEntity2 { PartitionKey = "A", RowKey = "2", Thing0 = "E1", Thing6 = "Hi", Thing7 = 1234};
+            var crapEntity1 = CrapEntity1();
+            var crapEntity2 = CrapEntity2();
             context.AddObject(tableName, crapEntity1);
             context.SaveChanges();
             context.AddObject(tableName, crapEntity2);
             context.SaveChanges();
+        }
+
+        public static CrapEntity2 CrapEntity2()
+        {
+            return new CrapEntity2 { PartitionKey = "A", RowKey = "2", Thing0 = "E1", Thing6 = "Hi", Thing7 = 1234};
+        }
+
+        public static CrapEntity1 CrapEntity1()
+        {
+            return new CrapEntity1 { PartitionKey = "A", RowKey = "1", Thing0 = "E1", Thing1 = "Hi", Thing2 = 1234};
         }
     }
 }

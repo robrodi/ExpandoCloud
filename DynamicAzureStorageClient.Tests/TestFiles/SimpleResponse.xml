@@ -17,7 +17,7 @@
       <m:properties>
         <d:PartitionKey>A</d:PartitionKey>
         <d:RowKey>1</d:RowKey>
-        <d:Timestamp m:type="Edm.DateTime">2012-05-25T00:48:59.16Z</d:Timestamp>
+        <d:Timestamp m:type="Edm.DateTime">2012-05-25T21:00:29.79Z</d:Timestamp>
         <d:Thing0>E1</d:Thing0>
         <d:Thing1>Hi</d:Thing1>
         <d:Thing2 m:type="Edm.Int32">1234</d:Thing2>
@@ -39,7 +39,7 @@
       <m:properties>
         <d:PartitionKey>A</d:PartitionKey>
         <d:RowKey>2</d:RowKey>
-        <d:Timestamp m:type="Edm.DateTime">2012-05-25T00:48:59.62Z</d:Timestamp>
+        <d:Timestamp m:type="Edm.DateTime">2012-05-25T21:00:29.97Z</d:Timestamp>
         <d:Thing0>E1</d:Thing0>
         <d:Thing1 m:null="true" />
         <d:Thing2 m:type="Edm.Int32" m:null="true" />
