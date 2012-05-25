@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<feed xml:base="http://127.0.0.1:10002/devstoreaccount1/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">JaggedTable1</title>
+  <id>http://127.0.0.1:10002/devstoreaccount1/JaggedTable1</id>
+  <updated>2012-05-25T02:28:43Z</updated>
+  <link rel="self" title="JaggedTable1" href="JaggedTable1" />
+  <entry m:etag="W/&quot;datetime'2012-05-25T00%3A48%3A59.16Z'&quot;">
+    <id>http://127.0.0.1:10002/devstoreaccount1/JaggedTable1(PartitionKey='A',RowKey='1')</id>
+    <title type="text"></title>
+    <updated>2012-05-25T02:28:43Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="JaggedTable1" href="JaggedTable1(PartitionKey='A',RowKey='1')" />
+    <category term="devstoreaccount1.JaggedTable1" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:PartitionKey>A</d:PartitionKey>
+        <d:RowKey>1</d:RowKey>
+        <d:Timestamp m:type="Edm.DateTime">2012-05-25T00:48:59.16Z</d:Timestamp>
+        <d:Thing0>E1</d:Thing0>
+        <d:Thing1>Hi</d:Thing1>
+        <d:Thing2 m:type="Edm.Int32">1234</d:Thing2>
+        <d:Thing6 m:null="true" />
+        <d:Thing7 m:type="Edm.Int32" m:null="true" />
+      </m:properties>
+    </content>
+  </entry>
+  <entry m:etag="W/&quot;datetime'2012-05-25T00%3A48%3A59.62Z'&quot;">
+    <id>http://127.0.0.1:10002/devstoreaccount1/JaggedTable1(PartitionKey='A',RowKey='2')</id>
+    <title type="text"></title>
+    <updated>2012-05-25T02:28:43Z</updated>
+    <author>
+      <name />
+    </author>
+    <link rel="edit" title="JaggedTable1" href="JaggedTable1(PartitionKey='A',RowKey='2')" />
+    <category term="devstoreaccount1.JaggedTable1" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+      <m:properties>
+        <d:PartitionKey>A</d:PartitionKey>
+        <d:RowKey>2</d:RowKey>
+        <d:Timestamp m:type="Edm.DateTime">2012-05-25T00:48:59.62Z</d:Timestamp>
+        <d:Thing0>E1</d:Thing0>
+        <d:Thing1 m:null="true" />
+        <d:Thing2 m:type="Edm.Int32" m:null="true" />
+        <d:Thing6>Hi</d:Thing6>
+        <d:Thing7 m:type="Edm.Int32">1234</d:Thing7>
+      </m:properties>
+    </content>
+  </entry>
+</feed>
