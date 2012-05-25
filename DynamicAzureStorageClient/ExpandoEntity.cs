@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
 using System.Linq;
+using NLog;
 
 namespace DynamicAzureStorageClient
 {
     public class Expando : DynamicObject, IDynamicMetaObjectProvider
     {
+        private readonly Logger Logger = LogManager.GetLogger("Expando");
+
         private readonly object _instance;
         private Type _instanceType;
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
@@ -26,7 +29,6 @@ namespace DynamicAzureStorageClient
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-
             // Check properties.
             if (_properties.ContainsKey(binder.Name))
             {
@@ -77,14 +79,20 @@ namespace DynamicAzureStorageClient
             }
             set
             {
+                Logger.Log(LogLevel.Debug, "Setter {0} : {1} ({2})", key, value, value != null ? value.GetType().Name : ">Null<");
+
                 if (_properties.ContainsKey(key))
                 {
                     _properties[key] = value;
                     return;
                 }
+
                 var property = GetProperty(key);
                 if (property != null)
                     property.SetValue(_instance, value, null);
+                else
+                    _properties[key] = value;
+                    
             }
         }
     }
@@ -93,6 +101,6 @@ namespace DynamicAzureStorageClient
     {
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
-
+        public DateTime Timestamp { get; set; }
     }
 }
