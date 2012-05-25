@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="DyanmicEntityParser.cs" />
     <Compile Include="DynamicStorageClient.cs" />
+    <Compile Include="ExpandoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

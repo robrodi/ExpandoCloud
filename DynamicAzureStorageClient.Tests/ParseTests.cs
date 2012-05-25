@@ -25,7 +25,8 @@ namespace DynamicAzureStorageClient.Tests
             Assert.AreEqual(2, entities.Length);
             var first = entities[0];
             Assert.IsNotNull(first, "Null first");
-            Assert.AreEqual(first.PartitionKey, "A");
+            Assert.AreEqual("A", first.PartitionKey, "PK");
+            //Assert.AreEqual("1", first.RowKey, "RK");
         }
     }
 }
