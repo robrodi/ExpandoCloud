@@ -34,6 +34,7 @@ namespace DynamicAzureStorageClient
         {
             var uri = new Uri(string.Format("{0}/{1}", _cloudStorageAccount.TableEndpoint, tableName));
             var request = CreateRequest(uri, MethodGet);
+            request.Proxy = null; // shaves off 1ms/run on average.
             _cloudStorageAccount.Credentials.SignRequestLite(request);
             return ReturnEntities(request);
         }
